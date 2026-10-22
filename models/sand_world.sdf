@@ -1,0 +1,707 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+
+  <world name="sand_arena">
+      <!-- ========================================= -->
+    <!-- GAZEBO SYSTEM PLUGINS                    -->
+    <!-- ========================================= -->
+
+    <plugin
+      filename="gz-sim-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <plugin
+      filename="gz-sim-sensors-system"
+      name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <!-- ========================================= -->
+    <!-- PHYSICS                                   -->
+    <!-- ========================================= -->
+
+    <physics name="default_physics" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <gravity>0 0 -9.81</gravity>
+
+
+    <!-- ========================================= -->
+    <!-- LIGHTING                                  -->
+    <!-- ========================================= -->
+
+    <light name="sun" type="directional">
+      <cast_shadows>true</cast_shadows>
+
+      <pose>0 0 10 0.3 0.2 -0.5</pose>
+
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.25 0.25 0.25 1</specular>
+
+      <direction>-0.3 0.2 -1</direction>
+    </light>
+
+
+    <!-- ========================================= -->
+    <!-- 14 m × 10 m SAND FLOOR                    -->
+    <!-- ========================================= -->
+
+    <model name="sand_floor">
+
+      <static>true</static>
+
+      <link name="sand_link">
+
+        <!-- SAND COLLISION -->
+
+        <collision name="sand_collision">
+
+          <pose>0 0 -0.05 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>14 10 0.10</size>
+            </box>
+          </geometry>
+
+
+          <!-- SAND PHYSICS -->
+
+          <surface>
+
+            <friction>
+
+              <ode>
+                <mu>0.65</mu>
+                <mu2>0.55</mu2>
+              </ode>
+
+            </friction>
+
+
+            <contact>
+
+              <ode>
+                <kp>100000</kp>
+                <kd>1000</kd>
+                <max_vel>0.1</max_vel>
+                <min_depth>0.001</min_depth>
+              </ode>
+
+            </contact>
+
+          </surface>
+
+        </collision>
+
+
+        <!-- SAND VISUAL -->
+
+        <visual name="sand_visual">
+
+          <pose>0 0 -0.05 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>14 10 0.10</size>
+            </box>
+          </geometry>
+
+
+          <material>
+
+            <ambient>0.72 0.56 0.34 1</ambient>
+
+            <diffuse>0.78 0.63 0.42 1</diffuse>
+
+            <specular>0.08 0.08 0.08 1</specular>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+    <!-- ========================================= -->
+    <!-- 9 m × 5 m CENTRAL TEST-ZONE MARKINGS     -->
+    <!-- ========================================= -->
+
+
+    <!-- NORTH MARKING -->
+
+    <model name="marking_north">
+
+      <static>true</static>
+
+      <link name="marking_link">
+
+        <visual name="visual">
+
+          <pose>0 2.5 0.006 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>9.0 0.035 0.012</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0.95 0.95 0.95 1</ambient>
+
+            <diffuse>0.95 0.95 0.95 1</diffuse>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+    <!-- SOUTH MARKING -->
+
+    <model name="marking_south">
+
+      <static>true</static>
+
+      <link name="marking_link">
+
+        <visual name="visual">
+
+          <pose>0 -2.5 0.006 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>9.0 0.035 0.012</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0.95 0.95 0.95 1</ambient>
+
+            <diffuse>0.95 0.95 0.95 1</diffuse>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+    <!-- EAST MARKING -->
+
+    <model name="marking_east">
+
+      <static>true</static>
+
+      <link name="marking_link">
+
+        <visual name="visual">
+
+          <pose>4.5 0 0.006 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.035 5.0 0.012</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0.95 0.95 0.95 1</ambient>
+
+            <diffuse>0.95 0.95 0.95 1</diffuse>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+    <!-- WEST MARKING -->
+
+    <model name="marking_west">
+
+      <static>true</static>
+
+      <link name="marking_link">
+
+        <visual name="visual">
+
+          <pose>-4.5 0 0.006 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.035 5.0 0.012</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0.95 0.95 0.95 1</ambient>
+
+            <diffuse>0.95 0.95 0.95 1</diffuse>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+    <!-- ========================================= -->
+    <!-- INTERNAL 1 m × 1 m GRID                  -->
+    <!-- ========================================= -->
+
+    <model name="arena_grid">
+
+      <static>true</static>
+
+      <link name="grid_link">
+
+
+        <!-- =============================== -->
+        <!-- VERTICAL GRID LINES             -->
+        <!-- =============================== -->
+
+
+        <visual name="vertical_1">
+
+          <pose>-3.5 0 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.015 5.0 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="vertical_2">
+
+          <pose>-2.5 0 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.015 5.0 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="vertical_3">
+
+          <pose>-1.5 0 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.015 5.0 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="vertical_4">
+
+          <pose>-0.5 0 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.015 5.0 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="vertical_5">
+
+          <pose>0.5 0 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.015 5.0 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="vertical_6">
+
+          <pose>1.5 0 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.015 5.0 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="vertical_7">
+
+          <pose>2.5 0 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.015 5.0 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="vertical_8">
+
+          <pose>3.5 0 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.015 5.0 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <!-- =============================== -->
+        <!-- HORIZONTAL GRID LINES            -->
+        <!-- =============================== -->
+
+
+        <visual name="horizontal_1">
+
+          <pose>0 -1.5 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>9.0 0.015 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="horizontal_2">
+
+          <pose>0 -0.5 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>9.0 0.015 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="horizontal_3">
+
+          <pose>0 0.5 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>9.0 0.015 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+        <visual name="horizontal_4">
+
+          <pose>0 1.5 0.007 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>9.0 0.015 0.010</size>
+            </box>
+          </geometry>
+
+          <material>
+            <ambient>0.55 0.55 0.55 1</ambient>
+            <diffuse>0.55 0.55 0.55 1</diffuse>
+          </material>
+
+        </visual>
+
+
+      </link>
+
+    </model>
+
+
+    <!-- ========================================= -->
+    <!-- NORTH WALL                               -->
+    <!-- ========================================= -->
+
+    <model name="wall_north">
+
+      <static>true</static>
+
+      <pose>0 4.925 1.25 0 0 0</pose>
+
+      <link name="wall_link">
+
+        <collision name="collision">
+
+          <geometry>
+            <box>
+              <size>14 0.15 2.5</size>
+            </box>
+          </geometry>
+
+        </collision>
+
+
+        <visual name="visual">
+
+          <geometry>
+            <box>
+              <size>14 0.15 2.5</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0.32 0.32 0.32 1</ambient>
+
+            <diffuse>0.45 0.45 0.45 1</diffuse>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+    <!-- ========================================= -->
+    <!-- SOUTH WALL                               -->
+    <!-- ========================================= -->
+
+    <model name="wall_south">
+
+      <static>true</static>
+
+      <pose>0 -4.925 1.25 0 0 0</pose>
+
+      <link name="wall_link">
+
+        <collision name="collision">
+
+          <geometry>
+            <box>
+              <size>14 0.15 2.5</size>
+            </box>
+          </geometry>
+
+        </collision>
+
+
+        <visual name="visual">
+
+          <geometry>
+            <box>
+              <size>14 0.15 2.5</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0.32 0.32 0.32 1</ambient>
+
+            <diffuse>0.45 0.45 0.45 1</diffuse>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+    <!-- ========================================= -->
+    <!-- EAST WALL                                -->
+    <!-- ========================================= -->
+
+    <model name="wall_east">
+
+      <static>true</static>
+
+      <pose>6.925 0 1.25 0 0 0</pose>
+
+      <link name="wall_link">
+
+        <collision name="collision">
+
+          <geometry>
+            <box>
+              <size>0.15 9.85 2.5</size>
+            </box>
+          </geometry>
+
+        </collision>
+
+
+        <visual name="visual">
+
+          <geometry>
+            <box>
+              <size>0.15 9.85 2.5</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0.32 0.32 0.32 1</ambient>
+
+            <diffuse>0.45 0.45 0.45 1</diffuse>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+    <!-- ========================================= -->
+    <!-- WEST WALL                                -->
+    <!-- ========================================= -->
+
+    <model name="wall_west">
+
+      <static>true</static>
+
+      <pose>-6.925 0 1.25 0 0 0</pose>
+
+      <link name="wall_link">
+
+        <collision name="collision">
+
+          <geometry>
+            <box>
+              <size>0.15 9.85 2.5</size>
+            </box>
+          </geometry>
+
+        </collision>
+
+
+        <visual name="visual">
+
+          <geometry>
+            <box>
+              <size>0.15 9.85 2.5</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0.32 0.32 0.32 1</ambient>
+
+            <diffuse>0.45 0.45 0.45 1</diffuse>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+  </world>
+
+</sdf>
